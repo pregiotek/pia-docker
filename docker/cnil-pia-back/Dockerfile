@@ -5,13 +5,16 @@ ENV PIA_VERSION 2.2.0
 ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES=true
 
+ARG BRANCH=master
+ARG REPO=https://github.com/pregiotek/pia-back.git
+
 RUN apt-get update \
  && apt-get install --no-install-recommends -y \
     git \
     postgresql-client \
  && apt-get clean
 
-RUN git clone --branch $PIA_VERSION https://github.com/LINCnil/pia-back.git --depth 1 /var/www/
+RUN git clone --branch ${BRANCH} ${REPO} --depth 1 /var/www/
 
 COPY database.yml /var/www/config/database.yml
 COPY application.yml /var/www/config/application.yml
