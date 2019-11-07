@@ -5,6 +5,15 @@ ENV NODEJS_VERSION 10.16.0
 ENV PIA_VERSION 2.2.0
 ENV SUDO_FORCE_REMOVE yes
 
+ARG PIA_BACKEND_URL
+ARG ATHORA_RETRIEVE_PROFILE
+ARG ATHORA_GET_AVAILABLE_USERS
+
+ARG BRANCH=master
+ARG REPO=https://github.com/pregiotek/pia.git
+
+
+
 RUN apt-get update \
  && apt-get install --no-install-recommends -y \
     git \
@@ -40,7 +49,13 @@ RUN mkdir -p /var/www && chown www-data. /var/www/
 
 USER www-data
 
-RUN git clone --branch $PIA_VERSION https://github.com/LINCnil/pia.git --depth 1 /var/www/pia
+RUN git clone --branch ${BRANCH} ${REPO} --depth 1 /var/www/pia
+
+# Update src/assets/settings/settings.js file entries
+WORKDIR /var/www/pia/src/assets/settings
+RUN sed -i "s/serverURL:.*/serverURL: '${PIA_BACKEND_URL}',/" settings.js \
+ && sed -i "s/retrieveProfile:.*/retrieveProfile: '${ATHORA_RETRIEVE_PROFILE}',/" settings.js \
+ && sed -i "s/getAvailableUsers:.*/getAvailableUsers: '${ATHORA_GET_AVAILABLE_USERS}'/" settings.js
 
 WORKDIR /var/www/pia
 
