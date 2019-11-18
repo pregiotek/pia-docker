@@ -23,8 +23,8 @@ services:
       dockerfile: Dockerfile
       args:
         PIA_BACKEND_URL: 'http://localhost:3000'
-        ATHORA_RETRIEVE_PROFILE: 'http://localhost:4200/assets/mocks/retrieveProfile.json'
-        ATHORA_GET_AVAILABLE_USERS: 'http://localhost:4200/assets/mocks/getAvailableUsers.json'
+        ATHORA_RETRIEVE_PROFILE: 'http://localhost:8080/assets/mocks/retrieveProfile.json'
+        ATHORA_GET_AVAILABLE_USERS: 'http://localhost:8080/assets/mocks/getAvailableUsers.json'
     restart: always
     ports:
       - 0.0.0.0:8080:80
