@@ -53,9 +53,9 @@ RUN git clone --branch ${BRANCH} ${REPO} --depth 1 /var/www/pia
 
 # Update src/assets/settings/settings.js file entries
 WORKDIR /var/www/pia/src/assets/settings
-RUN sed -i "s/serverURL:.*/serverURL: '${PIA_BACKEND_URL}',/" settings.js \
- && sed -i "s/retrieveProfile:.*/retrieveProfile: '${ATHORA_RETRIEVE_PROFILE}',/" settings.js \
- && sed -i "s/getAvailableUsers:.*/getAvailableUsers: '${ATHORA_GET_AVAILABLE_USERS}'/" settings.js
+RUN sed -i "s@serverURL:.*@serverURL: '${PIA_BACKEND_URL}',@" settings.js \
+ && sed -i "s@retrieveProfile:.*@retrieveProfile: '${ATHORA_RETRIEVE_PROFILE}',@" settings.js \
+ && sed -i "s@getAvailableUsers:.*@getAvailableUsers: '${ATHORA_GET_AVAILABLE_USERS}'@" settings.js
 
 WORKDIR /var/www/pia
 
@@ -63,7 +63,7 @@ WORKDIR /var/www/pia
 RUN yarn install \
  && cp src/environments/environment.prod.ts.example src/environments/environment.prod.ts \
  && sed -i -e "s/version: '2.0.0'/version: '$PIA_VERSION'/g" src/environments/environment.prod.ts \
- && /var/www/pia/node_modules/@angular/cli/bin/ng build --prod --build-optimizer
+ && /var/www/pia/node_modules/@angular/cli/bin/ng build
 
 USER root
 #Cleaning Packages
